@@ -15,8 +15,8 @@ CPU utilization is only 40%
 
 Pelagia can improve the performance of big roguelike by more than three times.
 In the example Ultimate Roguelike, NPC is set to 9000.
-<img src="https://github.com/surparallel/pelagia_websit/blob/master/img/ultimate_rouelike1.png">
+<img src="https://github.com/surparallel/pelagia_websit/blob/master/img/ultimage_rouelike1.png">
 Unit will enter full load state.
-<img src="https://github.com/surparallel/pelagia_websit/blob/master/img/ultimate_rouelike2.png">
+<img src="https://github.com/surparallel/pelagia_websit/blob/master/img/ultimage_rouelike2.png">
 CPU utilization can reach 80%.
-<img src="https://github.com/surparallel/pelagia_websit/blob/master/img/ultimate_rouelike3.png">
+<img src="https://github.com/surparallel/pelagia_websit/blob/master/img/ultimage_rouelike3.png">
