@@ -21,6 +21,8 @@ public class cube : MonoBehaviour
 		public string name;
 		public int global_x;
         public int global_y;
+		public float x;
+		public float z;
 	}
 
 	[System.Serializable]
@@ -81,21 +83,25 @@ public class cube : MonoBehaviour
 				if (rm.cmd == "move")
 				{
 					NpcMove(rm.name,rm.d_x, rm.d_z);
+					print("cmd move" + rm.name + "  " + rm.d_x + "  " + rm.d_z);
 				}else if (rm.cmd == "init")
 				{
+					uint count = 0;
 					GameObject gameObject1 = GameObject.Find("Cube");
 					for (int x = 0; x < MaxX; x++)
 					{
 						for (int z = 0; z < MaxZ; z++)
 						{
 							GameObject newobj = Instantiate(gameObject1, new Vector3(x, 0, z), Quaternion.identity);
-			
-							string key = "role" + x + z;
+
+							string key = "role" + (count++);
 							name_obj[key] = newobj;
 
 							InitMsg im = new InitMsg();
 							im.cmd = "create";
 							im.name = key;
+							im.x = x;
+							im.z = z;
 							string json = JsonUtility.ToJson(im);
 							m_Pelagia.Call("manager", json);
 						}

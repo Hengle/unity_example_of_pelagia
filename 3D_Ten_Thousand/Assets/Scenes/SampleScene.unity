@@ -244,7 +244,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad25e5a6511aa044cb73f801293754da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveTime: 0.1
+  moveTime: 0.5
   blockingLayer:
     serializedVersion: 2
     m_Bits: 0
@@ -407,8 +407,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 666d4ab5060fdff4ea730c29c60e53cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxX: 100
-  MaxZ: 10
+  MaxX: 30
+  MaxZ: 30
   columns: 100
   rows: 100
 --- !u!114 &963194230

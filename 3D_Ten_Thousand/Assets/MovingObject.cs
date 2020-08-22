@@ -29,15 +29,14 @@ namespace Completed
 			Vector3 start = transform.position;
 
 			// Calculate end position based on the direction parameters passed in when calling Move.
-			Vector3 end = new Vector3 (xDir, 0, zDir);
+			MoveEnd = new Vector3 (xDir, 0, zDir);
 			
 			//Check if nothing was hit and that the object isn't already moving.
 			if(!isMoving)
 			{
 				//Start SmoothMovement co-routine passing in the Vector2 end as destination
 				isMoving = true;
-				MoveEnd = end;
-				//Return true to say that Move was successful
+	
 				return true;
 			}
 			
@@ -60,6 +59,7 @@ namespace Completed
 					this.transform.localPosition = newPostion;
 				} else
 				{
+					print("cmd move complete::" + MoveEnd.x+"  "+MoveEnd.z);
 					//The object is no longer moving.
 					isMoving = false;
 				}

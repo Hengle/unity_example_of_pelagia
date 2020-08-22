@@ -9,28 +9,28 @@ local json = require 'dkjson'
 --local debuggee = require 'vscode-debuggee'
 --local startResult, breakerType = debuggee.start(json)
 --print('debuggee start ->', startResult, breakerType)
-frame_rate = 1;
-log_level = 2;
+frame_rate = 1/2;
+log_level = 0;
 speed = 5;
 
--- 删除table中的元素
+--Delete elements in table
 local function removeElementByKey(tbl,key)
-  --新建一个临时的table
+  --Create a temporary table
   local tmp ={}
   for i in pairs(tbl) do
       table.insert(tmp,i)
   end
 
   local newTbl = {}
-  --使用while循环剔除不需要的元素
+  --Use the while loop to weed out unwanted elements
   local i = 1
   while i <= #tmp do
       local val = tmp [i]
       if val == key then
-          --如果是需要剔除则remove 
+          --Remove if it needs to be removed
           table.remove(tmp,i)
        else
-          --如果不是剔除，放入新的tabl中
+          --If it's not culled, put it in a new tab
           newTbl[val] = tbl[val]
           i = i + 1
        end
@@ -81,7 +81,7 @@ function space(param)
     local json_arg = json.encode(space_Arg);
     pelagia.RemoteCall("manager", json_arg);
 
-    --按60帧的速度触发心跳
+    --Triggers a tick at the speed of a given frame
     local tick_Arg = {};
     tick_Arg.cmd = "tick";
     tick_Arg.id = orderid;
@@ -91,7 +91,7 @@ function space(param)
   elseif (dvalue.cmd == "write") then
 
     local orderid = pelagia.OrderID();
-    --新的
+    --new
     local xcell = math.floor(dvalue.x / 10);
     local zcell = math.floor(dvalue.z / 10);
     _G[orderid]["cell"]["x"..xcell.."z"..zcell] = {};
@@ -140,7 +140,7 @@ function space(param)
 
     local orderid = pelagia.OrderID();
     for key, value in pairs(_G[orderid]["coordinate"]) do
-      --新的
+      --new
       local x, z = location(value["x"], value["z"]
       , value["dx"], value["dz"], value["time"]);
 
@@ -163,7 +163,7 @@ function space(param)
       end
     end
 
-    --按60帧的速度触发心跳
+    --Triggers a tick at the speed of a given frame
     local tick_Arg = {};
     tick_Arg.cmd = "tick";
     tick_Arg.id = orderid;
@@ -190,8 +190,8 @@ function roleProc(cmd, orderid, rolename, value, dvalue)
     end
 
     value["in_space"] = spacekey;
-    value["x"] = math.random(1, 100);
-    value["z"] = math.random(1, 100);
+    value["x"] = dvalue.x;
+    value["z"] = dvalue.z;
     value["dx"] = math.random(1, 100);
     value["dz"] = math.random(1, 100);
     value["space_player"] = {};
@@ -211,7 +211,7 @@ function roleProc(cmd, orderid, rolename, value, dvalue)
     local json_arg = json.encode(space_Arg);
     pelagia.RemoteCallWithOrderID(spacekey, "space", json_arg);
 
-    --发送消息到view
+    --Send message to view
     local ret_player_arg = {};
     ret_player_arg.cmd = "move";
     ret_player_arg.name = rolename;
@@ -221,13 +221,13 @@ function roleProc(cmd, orderid, rolename, value, dvalue)
     pelagia.EventSend(_G[orderid]["event"], json_arg);
 
   elseif (cmd == "tick") then
-    --计算当前位置
+    --Calculate current position
     local x, z = location(value["x"], value["z"]
       , value["dx"], value["dz"], value["time"]);
 
     pelagia.Elog(log_level, "roleProc----"..rolename..":x:"..x..":z:"..z);
     if x == value["dx"] and z ==value["dz"] then
-      --重新设定目标
+      --Reset goals
       value["x"] = value["dx"];
       value["z"] = value["dz"];
 
@@ -236,7 +236,7 @@ function roleProc(cmd, orderid, rolename, value, dvalue)
 
       value["time"] = pelagia.MS();
 
-      --发送消息到view
+      --Send message to view
       local ret_player_arg = {};
       ret_player_arg.cmd = "move";
       ret_player_arg.name = rolename;
@@ -245,7 +245,7 @@ function roleProc(cmd, orderid, rolename, value, dvalue)
       local json_arg = json.encode(ret_player_arg);
       pelagia.EventSend(_G[orderid]["event"], json_arg);
 
-      --发送消息到space
+      --Send message to space
       local space_Arg = {};
       space_Arg.cmd = "write";
       space_Arg.name = rolename;
@@ -259,7 +259,7 @@ function roleProc(cmd, orderid, rolename, value, dvalue)
       pelagia.RemoteCallWithOrderID(value["in_space"], "space", json_arg);
     end
 
-    --随机发起查询周围玩家进行逻辑处理
+    --Randomly launch queries around players for logical processing
     if math.random(1, 100) == 0 then
       local space_Arg = {};
       space_Arg.cmd = "read";
@@ -288,7 +288,7 @@ function role(param)
     local json_arg = json.encode(space_Arg);
     pelagia.RemoteCall("manager", json_arg);
 
-    --按60帧的速度触发心跳
+    --Triggers a tick at the speed of a given frame
     local tick_Arg = {};
     tick_Arg.cmd = "tick";
     tick_Arg.id = orderid;
@@ -312,7 +312,7 @@ function role(param)
       roleProc(dvalue.cmd, orderid, key, value, dvalue);
     end
 
-    --按60帧的速度触发心跳
+    --Triggers a tick at the speed of a given frame
     local tick_Arg = {};
     tick_Arg.cmd = "tick";
     tick_Arg.id = orderid;
@@ -331,7 +331,7 @@ function manager(param)
 
   if (dvalue.cmd == "init") then
 
-    --创建space
+    --create space server
       pelagia.Set2("global", "x", dvalue.global_x);
       pelagia.Set2("global", "z", dvalue.global_z);
       pelagia.Set2("global_str", "event", dvalue.event);
@@ -359,7 +359,7 @@ function manager(param)
       pelagia.Elog(log_level, "space_ret::"..dvalue.id.."::"..ret);
       if ret == count then
 
-        --创建role
+        --create role server
         local space_Arg = {};
         space_Arg.cmd = "init";
         space_Arg.global_x = dvalue.global_x
@@ -381,7 +381,7 @@ function manager(param)
     if ret == count then
 
       local event = pelagia.Get2("global_str", "event");
-      --init完成
+      --init complete
       local ret_player_arg = {};
       ret_player_arg.cmd = "init";
       local json_arg = json.encode(ret_player_arg);
@@ -390,16 +390,16 @@ function manager(param)
 
   elseif (dvalue.cmd == "create") then
 
-    --开始player的创建
+    --Start the creation of role
     local event = pelagia.Get2("global_str", "event");
     local role_count = pelagia.Get2("global", "role_count");
     local space_count = pelagia.Get2("global", "space_count");
 
-    --因为player要频繁使用space所以分发给每个player
+    --Because roles use space frequently, they are distributed to each role
     local space_server = pelagia.SetMembers2("server", "space");
     local role_server = pelagia.SetMembers2("server", "role");
 
-    --随机分配到一个role服务
+    --Randomly assigned to a role server
     local rolekey;
     local limite = math.random(1, role_count);
 
@@ -414,6 +414,8 @@ function manager(param)
     local player_Arg = {};
     player_Arg.cmd = "create";
     player_Arg.name = dvalue.name;
+    player_Arg.x = dvalue.x;
+    player_Arg.z = dvalue.z;
     player_Arg.space = space_server;
     player_Arg.space_count = space_count;
     player_Arg.event = event;
@@ -447,6 +449,8 @@ function test2(param)
     local manger_Arg = {};
     manger_Arg.cmd = "create";
     manger_Arg.name = "role"..i;
+    manger_Arg.x = math.random(1, 100);
+    manger_Arg.z = math.random(1, 100);
     manger_Arg.event = dvalue.event;
     local json_arg = json.encode(manger_Arg);
     pelagia.RemoteCall("manager", json_arg)
