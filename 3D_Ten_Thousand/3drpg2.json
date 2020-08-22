@@ -1,0 +1,52 @@
+{
+"dbPath":"",
+"core":4,
+"maxTableWeight":100,
+"luaLibPath":"./lua5.1.dll",
+"logLevel":2,
+"logOutput":"file",
+
+"manager":{
+    "orderType":"lua",
+    "file":"3drpg2.lua",
+    "fun":"manager",
+    "weight":1,
+    "global":{
+        "weight":1
+        },
+    "global_str":{
+        "weight":1
+        },
+    "server":{
+        "weight":1
+        }
+    },
+
+"role":{
+    "orderType":"lua",
+    "file":"3drpg2.lua",
+    "fun":"role",
+    "weight":1
+    },
+
+"space":{
+    "orderType":"lua",
+    "file":"3drpg2.lua",
+    "fun":"space",
+    "weight":1
+    },
+
+"test":{
+    "orderType":"lua",
+    "file":"3drpg2.lua",
+    "fun":"test",
+    "weight":1
+    },
+
+"test2":{
+    "orderType":"lua",
+    "file":"3drpg2.lua",
+    "fun":"test2",
+    "weight":1
+    }
+}

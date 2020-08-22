@@ -407,7 +407,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 666d4ab5060fdff4ea730c29c60e53cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxX: 10
+  MaxX: 100
   MaxZ: 10
   columns: 100
   rows: 100
